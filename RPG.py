@@ -1,5 +1,6 @@
 import random
 
+
 class Person:
     def __init__(self):
         self.name = ""
@@ -136,7 +137,6 @@ class Evil:
         self.LVL = i
 
 
-
 class Orc:
     def __init__(self):
         self.name = ""
@@ -153,21 +153,21 @@ class Orc:
         self.GOLD = self.LVL * 2 + random.randint(0, 10)
         self.XPgain = round(2 ** self.LVL + 23)
 
-    def setSTR(self, val):
+    def setSTR(self):
         self.STR += char.LVL * 2
         self.ATK = self.STR
         self.DEF = self.INT * .05 + self.STR * .05 + self.CON * .1
         self.HP = 25 + 3 * self.CON + 0.1 * self.STR
 
-    def setINT(self, val):
+    def setINT(self):
         self.INT += char.LVL * 2
         self.DEF = self.INT * .05 + self.STR * .05 + self.CON * .1
         self.mATK = self.INT
 
-    def setCON(self, val):
+    def setCON(self):
         self.CON += char.LVL * 2
         self.DEF = self.INT * .05 + self.STR * .05 + self.CON * .1
-        self.HP = 25 + 2 * self.CON + 0.1 * self.STRa
+        self.HP = 25 + 2 * self.CON + 0.1 * self.STR
 
     def setXP(self, val):
         self.XP += val
@@ -268,7 +268,7 @@ while True:
 
 
 print('LVL = ' + str(char.LVL))
-print("XP = {0}%".format(char.XP / (10 * (2 ** char.LVL))* 100))
+print("XP = {0}%".format(char.XP / (10 * (2 ** char.LVL)) * 100))
 print('STR = ' + str(char.STR))
 print('INT = ' + str(char.INT))
 print('CON = ' + str(char.CON))
@@ -333,8 +333,8 @@ while True:
                                     print('"spell fissled"')
                             if HPe <= 0:
                                 print('You are victorious')
-                                char.setXP(Undead.XPgain)
-                                char.GOLD += Undead.GOLD
+                                char.setXP(Evil.XPgain)
+                                char.GOLD += Evil.GOLD
                                 if not char.LVL == LVL:
                                     print('You have leveled up from ' + str(LVL) + ' to ' + str(char.LVL))
                                     char.SKILLp += 5
@@ -464,15 +464,14 @@ while True:
                 if z == 1:
                     y = 1
                     if char.LVL > 10:
-                        LVL = 10
-                        Orc.setSTR(2 * LVL + random.randint(-2, 2))
-                        Orc.setINT(2 * LVL + random.randint(-2, 2))
-                        Orc.setCON(2 * LVL + random.randint(-2, 2))
+                        HPe = 25 + 2 * 20
+                        ATKe = 2 * 10 + random.randint(-2, 2)
+                        mATKe = 2 * 10 + random.randint(-2, 2)
+                    elif char.LVL <= 10:
+                        HPe = Orc.HP
+                        ATKe = Orc.ATK
+                        mATKe = Orc.mATK
                     NAMEe = random.randint(1, 3)
-                    HPe = Orc.HP
-                    ATKe = Orc.ATK
-                    mATKe = Orc.mATK
-                    DEFe = Orc.DEF
                     MANA = char.MANAp
                     HP = char.HP
                     ATK = char.ATK
@@ -512,18 +511,19 @@ while True:
                                     print('"spell fissled"')
                             if HPe <= 0:
                                 print('You are victorious')
-                                char.setXP(Undead.XPgain)
-                                char.GOLD += Undead.GOLD
+                                char.setXP(Orc.XPgain)
+                                if char.LVL >=10:
+                                    char.GOLD += 10 * 2 + random.randint(0, 10)
+                                else:
+                                    char.GOLD += Orc.GOLD
                                 if not char.LVL == LVL:
                                     print('You have leveled up from ' + str(LVL) + ' to ' + str(char.LVL))
                                     char.SKILLp += 5
                                     LVL = char.LVL
                                 break
                             elif HPe >= 0:
-                                print('You have HP:')
-                                print(HP)
-                                print('Your enemy has HP:')
-                                print(HPe)
+                                print('You have HP:' + HP)
+                                print('Your enemy has HP:' + HPe)
                             if NAMEe == 1:
                                 HP -= ATKe
                             elif NAMEe == 2:
@@ -549,7 +549,6 @@ while True:
                     print('(the book tells you about the omniverses, and the peace lords.)')
                     print('you are ambush by a man with 23 cromeasones')
                     y = 1
-                    NAMEe = 1
                     HPe = 100
                     ATKe = 12
                     DEFe = 0
@@ -604,18 +603,13 @@ while True:
                                 print(HP)
                                 print('Your enemy has HP:')
                                 print(HPe)
-                            if NAMEe == 1:
-                                HP -= ATKe
-                            elif NAMEe == 2:
-                                HP -= mATKe
-                            elif NAMEe == 3:
-                                HP -= ATKe
-                                HPe += 1 / 3 * ATKe
+                            HP -= ATKe
                             if HP <= 0:
                                 print('You have been defeated')
                                 char.XP += Undead.XPgain * (1 / 3)
                                 break
-                z = int(input("Fight for king fillip's army(1) go to shop(2) go to wizard's tower(3) go to library(4) Leave city(5): "))
+                z = int(input("Fight for king fillip's army(1) go to shop(2)"
+                              " go to wizard's tower(3) go to library(4) Leave city(5): "))
                 if z == 1:
                     print('UNFINISHED')
                     break
