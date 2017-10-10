@@ -4,6 +4,13 @@ class Game:
         self.LINEos = 0
         self.TIMEq = 4
         self.TIMEm = 15
+        self.DOWN = 0
+        self.DaD = 10
+
+
+    def setFIRSTd(self,val):
+        self.DaD -= val
+
 
 
 class Team1:
@@ -202,6 +209,76 @@ if a == 1:
                                     Game.LINEos -= Bot.SPECkr * k + 30 + random.randint(-4, 4)
                             else:
                                 Game.LINEos -= Bot.SPECkr * k + random.randint(-4, 4)
+            elif f== 2:
+                g = random.randint(1, 3)
+                if g == 1:
+                    h = 10 - PLAYER1.SPECkr
+                    i = random.randint(0, 50)
+                    if i < h:
+                        PLAYER1.BALL += 1
+                        Game.LINEos = 100 - (40 + (PLAYER1.SPECk * 5))
+                    elif i > h:
+                        Bot.BALL += 1
+                        Game.LINEos = 40 + (Bot.SPECk * 5)
+                        if Game.LINEos == 100:
+                            Game.LINEos = 20
+                        elif Game.LINEos < 100:
+                            k = random.randint(0, 6)
+                            if k == 6:
+                                k = random.randint(0, 6)
+                                if k == 6:
+                                    Game.LINEos = 0
+                                else:
+                                    Game.LINEos -= PLAYER1.SPECkr * k + 30 + random.randint(-4, 4)
+                            else:
+                                Game.LINEos -= PLAYER1.SPECkr * k + random.randint(-4, 4)
+            while True:
+                if Game.LINEos > 0:
+                    if Bot.BALL == 1:
+                        PLAYt = random.randint(1, 2)
+                        PLAYn = random.randint(1, 5)
+                    elif PLAYER1.BALL == 1:
+                        l = int(input('pass(1) run(2) punt(3)'))
+                        if l == 1:
+                            while True:
+                                m = int(input('short pass(1) medium pass(2) long pass(3) hail marry(4)'))
+                                if m == 1:
+                                    m = 3
+                                elif m == 2:
+                                    m = 10
+                                elif m == 3:
+                                    m = 17
+                                elif m == 4:
+                                    m = 45
+                                else:
+                                    m = -4
+                                n = random.randint(1, 100)
+                                n += PLAYER1.PASS
+                                if m == 45:
+                                    n = .75 * n
+                                if n <= 11:
+                                    Game.DOWN += 5
+                                elif n > 11:
+                                    if n <= 59:
+                                        print ('incomplete')
+                                    elif n >= 60:
+                                        if n < 90:
+                                            Game.LINEos -= m + random.randint(4, -4)
+                                        elif n >= 90:
+                                            if n < 105:
+                                                Game.LINEos -= m + random.randint(5, 15)
+                                            elif n >= 105:
+                                                Game.LINEos -= 100
+
+                                if Game.DaD <= 0:
+                                    Game.DOWN = 0
+                                Game.DOWN += 1
+                                if Game.DOWN >= 5:
+                                    PLAYER1.BALL -= 1
+                                    Bot.BALL += 1
+                                    Game.LINEos = 100 - Game.LINEos
+
             if Game.LINEos <= 0:
                 if PLAYER1.BALL == 1:
                     PLAYER1.BALL -= 1
+                    PLAYER1.SCORE += 6
